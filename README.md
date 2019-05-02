@@ -54,6 +54,8 @@ NOTE: Add instructions about how to run the application.
 
 <h2>What we are looking for: </h2>
 
+* Use the language you feel more comfortable.
+* Don't use any framework, we want to see you code.
 * Pay attention about how your code is organized.
 * How you are reflecting the domain in the code.
 * We love clean code.
