@@ -61,3 +61,18 @@ NOTE: Add instructions about how to run the application.
 * We love clean code.
 * We don`t think 100% of code coverage is a must, but we love tests.
 * We are looking forward to seeing your code and discuss with you your solution.
+
+# Running the application 
+
+To run image just build the docker image and run a new container:
+
+ ```bash
+# build the image
+docker build . -t othercode/console-twitter:latest
+
+# cleanup the intermediate images
+docker rmi $(sudo docker images -f dangling=true -q)
+
+# run the container 
+docker run -it --rm othercode/console-twitter:latest
+```

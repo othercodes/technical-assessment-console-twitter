@@ -1,0 +1,34 @@
+{
+  "name": "usantisteban/console-twitter-unay-santisteban",
+  "description": "Console-based social networking application, technical hiring test",
+  "license": "MIT",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Unay Santisteban",
+      "email": "usantisteban@othercode.es"
+    }
+  ],
+  "require": {
+    "php": "^7.2",
+    "ext-readline": "*",
+    "ext-json": "*",
+    "ext-pdo": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Lookiero\\Hiring\\ConsoleTwitter\\": "src/"
+    },
+    "files": [
+      "src/Common/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Lookiero\\Hiring\\ConsoleTwitter\\Tests\\": "tests/"
+    }
+  }
+}
