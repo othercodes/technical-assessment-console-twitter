@@ -20,6 +20,7 @@
   },
   "autoload": {
     "psr-4": {
+      "Lookiero\\Hiring\\ConsoleTwitter\\Applications\\Console\\": "app/console/src/",
       "Lookiero\\Hiring\\ConsoleTwitter\\": "src/"
     },
     "files": [
