@@ -3,10 +3,7 @@
 namespace Lookiero\Hiring\ConsoleTwitter\Shared\Infrastructure\Persistence\DatabaseSQLite;
 
 use Exception;
-use Lookiero\Hiring\ConsoleTwitter\Shared\Domain\Collection;
-use Lookiero\Hiring\ConsoleTwitter\Shared\Infrastructure\DatabaseSQLite\Contracts\Connector as ConnectorContract;
-use Lookiero\Hiring\ConsoleTwitter\Shared\Infrastructure\DatabaseSQLite\Exceptions\QueryException;
-use stdClass;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Infrastructure\Persistence\DatabaseSQLite\Exceptions\QueryException;
 
 /**
  * Class Query
@@ -74,21 +71,6 @@ class Query
      * @var array
      */
     private $limit;
-
-    /**
-     * Database connector.
-     * @var ConnectorContract
-     */
-    protected $connector;
-
-    /**
-     * Query constructor.
-     * @param ConnectorContract|null $connector
-     */
-    public function __construct(?ConnectorContract $connector = null)
-    {
-        $this->connector = $connector;
-    }
 
     /**
      * Add SELECT clause
@@ -293,20 +275,6 @@ class Query
         }
 
         return trim(implode(" ", $sql));
-    }
-
-    /**
-     * Execute the Query.
-     * @param array $parameters
-     * @param string $class
-     * @return bool|Collection
-     */
-    public function exec(array $parameters = [], string $class = stdClass::class)
-    {
-        if ($this->connector instanceof ConnectorContract) {
-            return $this->connector->execute($this, $parameters, $class);
-        }
-        return null;
     }
 
     /**

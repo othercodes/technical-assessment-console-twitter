@@ -1,10 +1,10 @@
 <?php
 
-namespace Lookiero\Hiring\ConsoleTwitter\Shared\Domain\Contracts;
+namespace Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts;
 
 /**
  * Interface Output
- * @package Lookiero\Hiring\ConsoleTwitter\Shared\Domain\Contracts
+ * @package Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts
  */
 interface Output
 {

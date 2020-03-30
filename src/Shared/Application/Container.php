@@ -1,9 +1,10 @@
 <?php
 
-namespace Lookiero\Hiring\ConsoleTwitter\Shared\Domain;
+namespace Lookiero\Hiring\ConsoleTwitter\Shared\Application;
 
 use Closure;
-use Lookiero\Hiring\ConsoleTwitter\Shared\Domain\Contracts\Container as ContainerContract;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Container as ContainerContract;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Domain\Collection;
 
 /**
  * Class Container

@@ -3,16 +3,13 @@
 namespace Lookiero\Hiring\ConsoleTwitter\Shared\Infrastructure\Persistence\DatabaseSQLite;
 
 use InvalidArgumentException;
-use Lookiero\Hiring\ConsoleTwitter\Shared\Domain\Collection;
-use Lookiero\Hiring\ConsoleTwitter\Shared\Infrastructure\DatabaseSQLite\Contracts\Connector as ConnectorContract;
 use PDO;
-use stdClass;
 
 /**
  * Class Connector (Only for SQLite dont want to build any fancy database abstraction layer for all drivers)
  * @package Lookiero\Hiring\ConsoleTwitter\Shared\Infrastructure\Persistence\DatabaseSQLite;
  */
-class Connector implements ConnectorContract
+class Connector
 {
     /**
      * Database connection
@@ -31,12 +28,6 @@ class Connector implements ConnectorContract
     ];
 
     /**
-     * Query to execute.
-     * @var Query
-     */
-    protected $query;
-
-    /**
      * Enable the query debug.
      * @var bool
      */
@@ -47,16 +38,6 @@ class Connector implements ConnectorContract
      * @param array $configuration
      */
     public function __construct(array $configuration)
-    {
-        $this->connection = $this->connect($configuration);
-    }
-
-    /**
-     * Start the connection with database.
-     * @param array $configuration
-     * @return PDO
-     */
-    public function connect(array $configuration): PDO
     {
         $username = isset($configuration['username']) ? $configuration['username'] : null;
         $password = isset($configuration['password']) ? $configuration['password'] : null;
@@ -78,7 +59,7 @@ class Connector implements ConnectorContract
             $dsn = 'sqlite:' . $path;
         }
 
-        return new PDO($dsn, $username, $password, $options);
+        $this->connection = new PDO($dsn, $username, $password, $options);
     }
 
     /**
@@ -91,45 +72,23 @@ class Connector implements ConnectorContract
     }
 
     /**
-     * Initialize a query for the model.
-     * @param bool $new
-     * @return Query
-     */
-    public function query($new = false): Query
-    {
-        if (!($this->query instanceof Query) || $new) {
-            $this->query = new Query($this);
-        }
-
-        return $this->query;
-    }
-
-    /**
-     * Execute the given query and return the result as new data container.
+     * Execute the given query and return the result.
      * @param Query|string $query
      * @param array $parameters
-     * @param string $class
-     * @return Collection|bool
+     * @return array|null
      * @throws Exceptions\QueryException
      */
-    public function execute($query, array $parameters = [], string $class = stdClass::class)
+    public function execute($query, array $parameters = []): ?array
     {
-        $statement = $this->connection->prepare(($query instanceof Query) ? $query->compile() : $query);
-        if ($statement->execute($parameters)) {
+        $query = ($query instanceof Query) ? $query->compile() : $query;
 
-            $collection = new Collection($statement->fetchAll(PDO::FETCH_ASSOC));
-            if (class_exists($class, true)) {
-                $collection = $collection->map(function (array $row) use ($class) {
-                    $object = new $class;
-                    foreach ($row as $field => $value) {
-                        $object->{$field} = $value;
-                    }
-                    return $object;
-                });
-            }
-            return $collection;
+        if ($this->debug) {
+            var_dump($query);
         }
 
-        return false;
+        $statement = $this->connection->prepare($query);
+        return ($statement->execute($parameters))
+            ? $statement->fetchAll(PDO::FETCH_ASSOC)
+            : null;
     }
 }

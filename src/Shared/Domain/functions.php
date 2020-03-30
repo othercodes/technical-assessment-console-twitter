@@ -29,3 +29,37 @@ if (!function_exists('arrayize')) {
         return $array;
     }
 }
+
+if (!function_exists('uuid')) {
+
+    /**
+     * Generate a new UUID.
+     * @return string
+     */
+    function uuid(): string
+    {
+        return sprintf(
+            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand(0, 65535),
+            mt_rand(0, 65535),
+            mt_rand(0, 65535),
+            mt_rand(16384, 20479),
+            mt_rand(32768, 49151),
+            mt_rand(0, 65535),
+            mt_rand(0, 65535),
+            mt_rand(0, 65535));
+    }
+}
+
+if (!function_exists('quote')) {
+
+    /**
+     * Add double quotes to the string.
+     * @param string $string
+     * @return string
+     */
+    function quote(string $string): string
+    {
+        return '"' . $string . '"';
+    }
+}
