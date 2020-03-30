@@ -11,6 +11,7 @@ Posting: Alice can publish messages to a personal timeline
 > Bob -> Damn! We lost!
 > Bob -> Good game though.
 ```
+
 Reading: Bob can view Alice’s timeline
  
 ```

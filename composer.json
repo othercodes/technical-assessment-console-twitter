@@ -1,5 +1,5 @@
 {
-  "name": "usantisteban/console-twitter-unay-santisteban",
+  "name": "usantisteban/console-twitter",
   "description": "Console-based social networking application, technical hiring test",
   "license": "MIT",
   "type": "project",
@@ -16,15 +16,17 @@
     "ext-pdo": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^8.5"
+    "ext-xdebug": "*",
+    "phpunit/phpunit": "^8.5",
+    "mockery/mockery": "^1.2"
   },
   "autoload": {
     "psr-4": {
-      "Lookiero\\Hiring\\ConsoleTwitter\\Applications\\Console\\": "app/console/src/",
+      "Lookiero\\Hiring\\ConsoleTwitter\\Applications\\Console\\": "applications/console/src/",
       "Lookiero\\Hiring\\ConsoleTwitter\\": "src/"
     },
     "files": [
-      "src/Common/functions.php"
+      "src/Shared/Domain/functions.php"
     ]
   },
   "autoload-dev": {
