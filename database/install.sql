@@ -1,28 +1,30 @@
 CREATE TABLE IF NOT EXISTS `users`
 (
-    `id`       INTEGER PRIMARY KEY AUTOINCREMENT,
-    `username` VARCHAR(32) UNIQUE,
-    `created`  DATE DEFAULT (datetime('now', 'localtime'))
+    `id`   VARCHAR(36) PRIMARY KEY,
+    `name` VARCHAR(32) UNIQUE
 );
-CREATE TABLE IF NOT EXISTS `followings`
+
+CREATE TABLE IF NOT EXISTS `subscriptions`
 (
-    `id`          INTEGER PRIMARY KEY AUTOINCREMENT,
-    `user_id`     INTEGER,
-    `follower_id` INTEGER,
-    `created`     DATE DEFAULT (datetime('now', 'localtime')),
-    UNIQUE (user_id, follower_id),
-    CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT fk_followers FOREIGN KEY (follower_id) REFERENCES users (id)
+    `id`            VARCHAR(36) PRIMARY KEY,
+    `subscribed_id` VARCHAR(36),
+    `subscriber_id` VARCHAR(36),
+    UNIQUE (subscribed_id, subscriber_id),
+    CONSTRAINT fk_users FOREIGN KEY (subscribed_id) REFERENCES users (id),
+    CONSTRAINT fk_followers FOREIGN KEY (subscriber_id) REFERENCES users (id)
 );
+
 CREATE TABLE IF NOT EXISTS `messages`
 (
-    `id`      INTEGER PRIMARY KEY AUTOINCREMENT,
-    `user_id` INTEGER,
-    `text`    VARCHAR(128),
-    `created` DATE DEFAULT (datetime('now', 'localtime')),
-    CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users (id)
+    `id`       VARCHAR(36) PRIMARY KEY,
+    `owner_id` VARCHAR(36),
+    `text`     VARCHAR(128),
+    `created`  DATE DEFAULT (datetime('now', 'localtime')),
+    CONSTRAINT fk_users FOREIGN KEY (owner_id) REFERENCES users (id)
 );
-INSERT INTO `users` (`username`)
-VALUES ('alice'),
-       ('bob'),
-       ('charlie');
+
+-- Initializing the user data.
+INSERT INTO `users` (`id`, `name`)
+VALUES ('044aae61-f41b-4770-8904-8d14b2c108bc', 'alice'),
+       ('c5c06910-beb7-4d25-8a8b-bb6c10657fa8', 'bob'),
+       ('80dbb0c7-b9ef-4281-a8a9-ddaa02f6a3de', 'charlie');
