@@ -4,11 +4,10 @@ namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console;
 
 use Error;
 use Exception;
-use Lookiero\Hiring\ConsoleTwitter\Application\Contracts\Container as ContainerContract;
-use Lookiero\Hiring\ConsoleTwitter\Application\Contracts\Input as InputContract;
-use Lookiero\Hiring\ConsoleTwitter\Application\Contracts\Kernel as KernelContract;
-use Lookiero\Hiring\ConsoleTwitter\Application\Contracts\Output as OutputContract;
-
+use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Container;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Input;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Kernel as KernelContract;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Output;
 
 /**
  * Class Kernel
@@ -32,35 +31,37 @@ class Kernel implements KernelContract
 
     /**
      * Service Container
-     * @var ContainerContract
+     * @var Container
      */
     protected $container;
 
     /**
      * Kernel constructor.
-     * @param ContainerContract $container
+     * @param Container $container
      */
-    public function __construct(ContainerContract $container)
+    public function __construct(Container $container)
     {
         $this->bootstrap($container);
     }
 
     /**
      * Bootstrap the kernel.
-     * @param ContainerContract $container
-     * @return KernelContract
+     * @param Container $container
+     * @return Kernel
      */
-    public function bootstrap(ContainerContract $container): KernelContract
+    public function bootstrap(Container $container): KernelContract
     {
         $this->container = $container;
 
-        /** @var ContainerContract $configuration */
+        /** @var Container $configuration */
         $configuration = $this->container->get('configuration');
 
-        foreach ($configuration->get('cli.commands', []) as $id => $command) {
-            $this->container["cli.command.{$id}"] = function (ContainerContract $container) use ($command) {
-                return new $command($container);
-            };
+        if (isset($configuration['cli.commands'])) {
+            foreach ($configuration['cli.commands'] as $id => $command) {
+                $this->container["cli.command.{$id}"] = function (Container $container) use ($command) {
+                    return new $command($container);
+                };
+            }
         }
 
         $this->container->get('service.db');
@@ -70,13 +71,15 @@ class Kernel implements KernelContract
 
     /**
      * Handle the incoming input.
-     * @param InputContract $input
-     * @param OutputContract $output
+     * @param Input $input
+     * @param Output $output
      * @return mixed
      */
-    public function handle(InputContract $input, OutputContract $output): int
+    public function handle(Input $input, Output $output): int
     {
         try {
+
+            $status = 0;
 
             /**
              * unpack the input arguments, and check if command exists in the
@@ -85,13 +88,13 @@ class Kernel implements KernelContract
              */
             ['ctrl' => $ctrl, 'args' => $args] = $input->getArguments();
 
-            if (!$this->container->has("cli.command.{$ctrl}")) {
-                throw new Exception("Command not '{$ctrl}' found.", 2);
-            }
+            if ($this->container->has("cli.command.{$ctrl}")) {
+                if (!empty($args[0])) {
+                    $status = call_user_func_array([$this->container->get("cli.command.{$ctrl}"), 'execute'], $args);
+                }
 
-            $status = 0;
-            if (!empty($args[0])) {
-                $status = call_user_func_array([$this->container->get("cli.command.{$ctrl}"), 'execute'], $args);
+            } else {
+                $output->write("Command '{$ctrl}' not found.\n");
             }
 
         } catch (Error | Exception $e) {

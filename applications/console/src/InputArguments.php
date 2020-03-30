@@ -2,7 +2,7 @@
 
 namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console;
 
-use Lookiero\Hiring\ConsoleTwitter\Application\Contracts\Input as InputContract;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Input as InputContract;
 
 /**
  * Class InputArguments

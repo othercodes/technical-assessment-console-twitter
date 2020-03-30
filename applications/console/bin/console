@@ -6,14 +6,14 @@
  * dependency manager of php), this will handle the automatic imports all
  * across the application.
  */
-require_once __DIR__ . '../../../vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 /**
  * Initialize the application. The service container will hold
  * all additional services or elements that the system will need.
  */
 $app = new Lookiero\Hiring\ConsoleTwitter\Applications\Console\Application(
-    new Lookiero\Hiring\ConsoleTwitter\Application\Container()
+    new Lookiero\Hiring\ConsoleTwitter\Shared\Application\Container()
 );
 
 /**
@@ -31,7 +31,9 @@ $app->kernel(Lookiero\Hiring\ConsoleTwitter\Applications\Console\Kernel::class);
 $app->configure([
     'app.providers' => [
         'db' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Providers\DatabaseProvider::class,
-        'users' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Providers\UserRepositoryProvider::class
+        'users' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Providers\UsersRepositoryProvider::class,
+        'messages' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Providers\MessagesRepositoryProvider::class,
+        'subscriptions' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Providers\SubscriptionsRepositoryProvider::class
     ],
     'cli.commands' => [
         'read' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands\Read::class,
@@ -40,16 +42,10 @@ $app->configure([
         'wall' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands\Wall::class,
     ],
     'database' => [
-        'name' => __DIR__ . '/database.sqlite',
-        'schema' => __DIR__ . '/src/install.sql'
+        'name' => __DIR__ . '/../../../database.sqlite',
+        'debug' => false
     ],
 ]);
-
-/**
- * Install the database application schema if is necessary, thi stage may be in
- * other file to avoid calling this method all the time...
- */
-$app->install();
 
 do {
 

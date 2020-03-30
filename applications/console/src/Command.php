@@ -1,31 +1,34 @@
 <?php
 
-namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands;
+namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console;
 
-use Lookiero\Hiring\ConsoleTwitter\Application\Contracts\Container as ContainerContract;
-use Lookiero\Hiring\ConsoleTwitter\Database\Contracts\Connector as ConnectorContract;
-use Lookiero\Hiring\ConsoleTwitter\Repositories\UserRepository;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Container;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Infrastructure\Persistence\DatabaseSQLite\Connector;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Contracts\MessagesRepository;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Subscriptions\Domain\Contracts\SubscriptionsRepository;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Contracts\UserRepository;
 
 /**
  * Class Command
- * @property ConnectorContract $db
+ * @property Connector $db
  * @property UserRepository $users
+ * @property MessagesRepository $messages
+ * @property SubscriptionsRepository $subscriptions
  * @package Lookiero\Hiring\ConsoleTwitter\Console
  */
 abstract class Command
 {
-
     /**
      * Service Container
-     * @var ContainerContract
+     * @var Container
      */
     protected $container;
 
     /**
      * Command constructor.
-     * @param ContainerContract $container
+     * @param Container $container
      */
-    public function __construct(ContainerContract $container)
+    public function __construct(Container $container)
     {
         $this->container = $container;
     }

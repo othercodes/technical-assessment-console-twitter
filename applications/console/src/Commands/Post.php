@@ -2,6 +2,16 @@
 
 namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands;
 
+use Lookiero\Hiring\ConsoleTwitter\Applications\Console\Command;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Application\MessageCreator;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageCreatedTime;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageId;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageOwnerId;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageText;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Application\UserFinder;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Exceptions\UserNotFoundException;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\UserName;
+
 /**
  * Class Post
  *
@@ -19,9 +29,21 @@ class Post extends Command
      * @param string $username
      * @param string $message
      * @return int
+     * @throws UserNotFoundException
      */
     public function execute(string $username, string $message): int
     {
-        return ($this->users->getUser($username)->message($message)) ? 0 : 11;
+        $userFinder = new UserFinder($this->users);
+        $user = $userFinder->byName(new UserName($username));
+
+        $messageCreator = new MessageCreator($this->messages);
+        $messageCreator->create(
+            new MessageId(uuid()),
+            new MessageOwnerId($user->id()->value()),
+            new MessageText($message),
+            new MessageCreatedTime('now')
+        );
+
+        return 0;
     }
 }

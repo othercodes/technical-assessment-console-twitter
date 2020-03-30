@@ -2,44 +2,30 @@
 
 namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console;
 
-use InvalidArgumentException;
-use Lookiero\Hiring\ConsoleTwitter\Application\Contracts\Container as ContainerContract;
-use Lookiero\Hiring\ConsoleTwitter\Application\Contracts\Input as InputContract;
-use Lookiero\Hiring\ConsoleTwitter\Application\Contracts\Kernel as KernelContract;
-use Lookiero\Hiring\ConsoleTwitter\Application\Contracts\Output as OutputContract;
-use Lookiero\Hiring\ConsoleTwitter\Common\Collection;
-use Lookiero\Hiring\ConsoleTwitter\Database\Contracts\Connector as ConnectorContract;
-use Lookiero\Hiring\ConsoleTwitter\Database\Query;
-use PDOException;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Container;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Input;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Kernel;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Output;
 
 /**
  * Class Application
- * @package Lookiero\Hiring\ConsoleTwitter
+ * @package Lookiero\Hiring\ConsoleTwitter\Applications\Console
  */
 class Application
 {
     /**
      * Service Container
-     * @var ContainerContract
+     * @var Container
      */
     protected $container;
 
     /**
      * Application constructor.
-     * @param ContainerContract $container
+     * @param Container $container
      */
-    public function __construct(ContainerContract $container)
+    public function __construct(Container $container)
     {
         $this->container = $container;
-    }
-
-    /**
-     * Return the container.
-     * @return ContainerContract
-     */
-    public function getContainer(): ContainerContract
-    {
-        return $this->container;
     }
 
     /**
@@ -49,7 +35,7 @@ class Application
      */
     public function kernel($kernel): Application
     {
-        $this->container->set("kernel", function (ContainerContract $container) use ($kernel) {
+        $this->container->set("kernel", function (Container $container) use ($kernel) {
             return new $kernel($container);
         });
 
@@ -63,64 +49,24 @@ class Application
      */
     public function configure(array $configuration = []): Application
     {
-        /**
-         * Load the configuration into the container as a collection (container) to ease the
-         * usage and initialize the service providers, each service is deferred until the
-         * real usage.
-         */
-        $this->container->set('configuration', $configuration = new Collection($configuration));
+        $this->container->set('configuration', $configuration);
 
-        foreach ($configuration->get('app.providers', []) as $id => $service) {
-            $this->container["service.{$id}"] = new $service;
+        if (isset($configuration['app.providers'])) {
+            foreach ($configuration['app.providers'] as $id => $service) {
+                $this->container["service.{$id}"] = new $service;
+            }
         }
 
         return $this;
     }
 
     /**
-     * Install the database application schema if is required.
-     * @return bool
-     */
-    public function install(): bool
-    {
-        try {
-
-            /** @var ConnectorContract $db */
-            $db = $this->container->get('service.db');
-            $db->execute((new Query())->select(['count(*)'])->from(['users']));
-
-        } catch (PDOException $e) {
-
-            /** @var array $configuration */
-            $configuration = $this->container->get('configuration')->get('database');
-
-            if (!is_readable($configuration['schema'])) {
-                throw new InvalidArgumentException("Unable to read '{$configuration['schema']}' install file.");
-            }
-
-            $schemas = (new Collection(explode(';', file_get_contents($configuration['schema']))))
-                ->map(function (string $statement) {
-                    return trim($statement);
-                })
-                ->filter(function (string $statement) {
-                    return !empty($statement);
-                });
-
-            foreach ($schemas as $schema) {
-                $db->execute($schema);
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Run the application...
-     * @param InputContract $input
-     * @param OutputContract $output
+     * @param Input $input
+     * @param Output $output
      * @return int
      */
-    public function run(InputContract $input, OutputContract $output): int
+    public function run(Input $input, Output $output): int
     {
         /**
          * push the Input and Output into the container so they can be available
@@ -133,7 +79,7 @@ class Application
          * Load the required Kernel based on the current server api. For this use
          * case I only have the Console Kernel so if this is executed in web server
          * this will crash...
-         * @var KernelContract $kernel
+         * @var Kernel $kernel
          */
         $kernel = $this->container->get("kernel");
 

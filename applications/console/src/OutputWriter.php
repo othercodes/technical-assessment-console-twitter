@@ -2,7 +2,7 @@
 
 namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console;
 
-use Lookiero\Hiring\ConsoleTwitter\Application\Contracts\Output as OutputContract;
+use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Output as OutputContract;
 
 /**
  * Class OutputWriter
