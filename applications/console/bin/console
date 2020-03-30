@@ -36,9 +36,10 @@ $app->configure([
         'subscriptions' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Providers\SubscriptionsRepositoryProvider::class
     ],
     'cli.commands' => [
+        'quit' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands\Quit::class,
         'read' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands\Read::class,
-        'post' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands\Post::class,
-        'follow' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands\Follow::class,
+        '->' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands\Post::class,
+        'follows' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands\Follow::class,
         'wall' => Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands\Wall::class,
     ],
     'database' => [

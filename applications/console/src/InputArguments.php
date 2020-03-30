@@ -30,17 +30,6 @@ class InputArguments implements InputContract
     private $arguments = [];
 
     /**
-     * The commands alias.
-     * @var array
-     */
-    private $commands_alias = [
-        'read' => 'read',
-        '->' => 'post',
-        'follow' => 'follow',
-        'wall' => 'wall'
-    ];
-
-    /**
      * Arguments constructor. Get the raw input data and parse it into
      * a usable array of arguments:
      *
@@ -53,12 +42,7 @@ class InputArguments implements InputContract
             return !empty(trim($item));
         }));
 
-        $ctrl = isset($input[1]) ? $input[1] : 'read';
-        if (isset($this->commands_alias[$ctrl])) {
-            $ctrl = $this->commands_alias[$ctrl];
-        }
-
-        $this->arguments['ctrl'] = $ctrl;
+        $this->arguments['ctrl'] = isset($input[1]) ? $input[1] : 'read';
         $this->arguments['args'] = [
             isset($input[0]) ? $input[0] : null,
             isset($input[2]) ? implode(' ', array_slice($input, 2)) : []
