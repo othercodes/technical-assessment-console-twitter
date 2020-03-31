@@ -2,14 +2,9 @@
 
 namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands;
 
+use Exception;
 use Lookiero\Hiring\ConsoleTwitter\Applications\Console\Command;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Subscriptions\Application\UserSubscriber;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Subscriptions\Domain\Exceptions\InvalidSubscribeToException;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Subscriptions\Domain\SubscribedId;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Subscriptions\Domain\SubscriberId;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Services\UserFinder;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Exceptions\UserNotFoundException;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\UserName;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Shared\Application\Subscriber;
 
 /**
  * Class Follow
@@ -28,31 +23,23 @@ class Follow extends Command
 
     /**
      * Handle the command execution.
-     * @param string $username
-     * @param string $follow
+     * @param string $follower
+     * @param string $toFollow
      * @return int
-     * @throws UserNotFoundException
      */
-    public function execute(string $username, string $follow): int
+    public function execute(string $follower, string $toFollow): int
     {
         try {
 
-            $userFinder = new UserFinder($this->users);
-            $userSubscriber = new UserSubscriber($this->subscriptions);
+            $subscriber = new Subscriber($this->users, $this->subscriptions);
 
-            $follower = $userFinder->byName(new UserName($username));
-            $toFollow = $userFinder->byName(new UserName($follow));
-
-            $subscribed = $userSubscriber->subscribe(
-                new SubscriberId($follower->id()->value()),
-                new SubscribedId($toFollow->id()->value())
-            );
-
-            $this->write(sprintf($subscribed ? Follow::SUBSCRIBED_SUCCESSFULLY : Follow::ALREADY_SUBSCRIBED,
-                $follower->name(), $toFollow->name()
+            $this->write(sprintf($subscriber->subscribe($follower, $toFollow)
+                ? Follow::SUBSCRIBED_SUCCESSFULLY
+                : Follow::ALREADY_SUBSCRIBED,
+                $follower, $toFollow
             ));
 
-        } catch (InvalidSubscribeToException $e) {
+        } catch (Exception $e) {
 
             $this->write("{$e->getMessage()}\n");
         }

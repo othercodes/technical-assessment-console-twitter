@@ -7,7 +7,7 @@ use Lookiero\Hiring\ConsoleTwitter\Shared\Infrastructure\Persistence\DatabaseSQL
 use Lookiero\Hiring\ConsoleTwitter\Shared\Infrastructure\Persistence\DatabaseSQLite\Query;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Contracts\MessagesRepository;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Message;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageCreatedTime;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageCreated;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageId;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageOwnerId;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageText;
@@ -66,7 +66,7 @@ class DatabaseSQLiteMessagesRepository implements MessagesRepository
                         new MessageId($item['id']),
                         new MessageOwnerId($item['owner_id']),
                         new MessageText($item['text']),
-                        new MessageCreatedTime($item['created'])
+                        new MessageCreated($item['created'])
                     );
                 });
         } catch (\Exception $e) {

@@ -28,7 +28,7 @@ final class Message
 
     /**
      * The message created timestamp.
-     * @var MessageCreatedTime
+     * @var MessageCreated
      */
     private $created;
 
@@ -37,9 +37,9 @@ final class Message
      * @param MessageId $id
      * @param MessageOwnerId $ownerId
      * @param MessageText $text
-     * @param MessageCreatedTime $created
+     * @param MessageCreated $created
      */
-    public function __construct(MessageId $id, MessageOwnerId $ownerId, MessageText $text, MessageCreatedTime $created)
+    public function __construct(MessageId $id, MessageOwnerId $ownerId, MessageText $text, MessageCreated $created)
     {
         $this->id = $id;
         $this->ownerId = $ownerId;
@@ -76,9 +76,9 @@ final class Message
 
     /**
      * The created time.
-     * @return MessageCreatedTime
+     * @return MessageCreated
      */
-    public function created(): MessageCreatedTime
+    public function created(): MessageCreated
     {
         return $this->created;
     }

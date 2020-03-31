@@ -4,7 +4,7 @@ namespace Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Services;
 
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Contracts\MessagesRepository;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Message;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageCreatedTime;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageCreated;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageId;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageOwnerId;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageText;
@@ -33,12 +33,15 @@ final class MessageCreator
     /**
      * Create a new Message.
      * @param MessageId $id
-     * @param MessageOwnerId $ownerId
+     * @param MessageOwnerId $owner
      * @param MessageText $text
-     * @param MessageCreatedTime $created
+     * @param MessageCreated $created
+     * @return Message
      */
-    public function create(MessageId $id, MessageOwnerId $ownerId, MessageText $text, MessageCreatedTime $created)
+    public function create(MessageId $id, MessageOwnerId $owner, MessageText $text, MessageCreated $created): Message
     {
-        $this->repository->save(new Message($id, $ownerId, $text, $created));
+        $message = new Message($id, $owner, $text, $created);
+        $this->repository->save($message);
+        return $message;
     }
 }

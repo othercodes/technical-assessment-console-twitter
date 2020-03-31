@@ -6,10 +6,10 @@ use DateTimeImmutable;
 use Exception;
 
 /**
- * Class MessageCreatedTime
+ * Class MessageCreated
  * @package Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain
  */
-final class MessageCreatedTime extends \DateTimeImmutable
+final class MessageCreated extends \DateTimeImmutable
 {
     /**
      * Return the created time in ago format.

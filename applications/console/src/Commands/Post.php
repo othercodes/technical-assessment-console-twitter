@@ -2,15 +2,9 @@
 
 namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands;
 
+use Exception;
 use Lookiero\Hiring\ConsoleTwitter\Applications\Console\Command;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Services\MessageCreator;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageCreatedTime;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageId;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageOwnerId;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageText;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Services\UserFinder;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Exceptions\UserNotFoundException;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\UserName;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Shared\Application\TimelinePublisher;
 
 /**
  * Class Post
@@ -29,20 +23,18 @@ class Post extends Command
      * @param string $username
      * @param string $message
      * @return int
-     * @throws UserNotFoundException
      */
     public function execute(string $username, string $message): int
     {
-        $userFinder = new UserFinder($this->users);
-        $user = $userFinder->byName(new UserName($username));
+        try {
 
-        $messageCreator = new MessageCreator($this->messages);
-        $messageCreator->create(
-            new MessageId(uuid()),
-            new MessageOwnerId($user->id()->value()),
-            new MessageText($message),
-            new MessageCreatedTime('now')
-        );
+            $publisher = new TimelinePublisher($this->users, $this->messages);
+            $publisher->publish($username, $message);
+
+        } catch (Exception $e) {
+
+            $this->write("{$e->getMessage()}\n");
+        }
 
         return 0;
     }
