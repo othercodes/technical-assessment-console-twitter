@@ -39,6 +39,10 @@ Bob - Damn! We lost! (2 minutes ago)
 Alice - I love the weather today (5 minutes ago)
 ```
 
+# Architecture 
+
+This application has been refactored to follow the hexagonal architecture.
+
 # Running the application 
 
 To run image just build the docker image and run a new container:

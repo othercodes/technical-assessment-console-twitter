@@ -200,7 +200,6 @@ class Query
         }
 
         if (isset($this->update)) {
-
             $queryType = 'update';
 
             $sql[] = 'UPDATE';
@@ -220,7 +219,6 @@ class Query
         }
 
         if (isset($this->insert)) {
-
             $queryType = 'insert';
 
             $sql[] = 'INSERT INTO';
@@ -242,7 +240,6 @@ class Query
         }
 
         foreach ($this->where as $index => $where) {
-
             if (!is_string($where['operator']) || !in_array($where['operator'], $this->operators)) {
                 throw new QueryException("Invalid operator in where statement.");
             }
@@ -254,7 +251,6 @@ class Query
             unset($where['quoted']);
 
             $sql[] = (($index == 0) ? "WHERE " : "AND ") . implode(" ", $where);
-
         }
 
         if (isset($this->group)) {
@@ -262,7 +258,6 @@ class Query
         }
 
         foreach ($this->order as $index => $order) {
-
             if (!in_array($order[1], ['ASC', 'DESC'])) {
                 throw new QueryException('Invalid order by value, must be ASC or DESC.');
             }

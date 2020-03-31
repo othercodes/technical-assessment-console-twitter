@@ -53,7 +53,6 @@ class DatabaseSQLiteMessagesRepository implements MessagesRepository
     public function search(array $criteria = []): Collection
     {
         try {
-
             $query = new Query();
             $query->select(['*'])->from(['messages']);
 
@@ -70,9 +69,7 @@ class DatabaseSQLiteMessagesRepository implements MessagesRepository
                         new MessageCreatedTime($item['created'])
                     );
                 });
-
         } catch (\Exception $e) {
-
             // add some log to control fail
             return new Collection();
         }
@@ -85,7 +82,6 @@ class DatabaseSQLiteMessagesRepository implements MessagesRepository
     public function save(Message $message): void
     {
         try {
-
             $query = new Query();
             $query->insert('messages', [
                 'id' => quote($message->id()->value()),
@@ -95,9 +91,7 @@ class DatabaseSQLiteMessagesRepository implements MessagesRepository
             ]);
 
             $this->connector->execute($query);
-
         } catch (\Exception $e) {
-
             // add some log to control fail
         }
     }
@@ -109,16 +103,13 @@ class DatabaseSQLiteMessagesRepository implements MessagesRepository
     public function delete(MessageId $id): void
     {
         try {
-
             $query = new Query();
             $query->delete()
                 ->from('messages')
                 ->where('id', '=', quote($id->value()));
 
             $this->connector->execute($query);
-
         } catch (\Exception $e) {
-
             // add some log to control fail
         }
     }

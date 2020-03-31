@@ -52,7 +52,6 @@ class DatabaseSQLiteSubscriptionsRepository implements SubscriptionsRepository
     public function search(array $criteria = []): Collection
     {
         try {
-
             $query = new Query();
             $query->select(['*'])->from(['subscriptions']);
 
@@ -68,9 +67,7 @@ class DatabaseSQLiteSubscriptionsRepository implements SubscriptionsRepository
                         new SubscribedId($item['subscribed_id'])
                     );
                 });
-
         } catch (\Exception $e) {
-
             // add some log to control fail
             return new Collection();
         }
@@ -83,7 +80,6 @@ class DatabaseSQLiteSubscriptionsRepository implements SubscriptionsRepository
     public function save(Subscription $subscription): void
     {
         try {
-
             $query = new Query();
             $query->insert('subscriptions', [
                 'id' => quote($subscription->id()->value()),
@@ -92,9 +88,7 @@ class DatabaseSQLiteSubscriptionsRepository implements SubscriptionsRepository
             ]);
 
             $this->connector->execute($query);
-
         } catch (\Exception $e) {
-
             // add some log to control fail
         }
     }
@@ -106,16 +100,13 @@ class DatabaseSQLiteSubscriptionsRepository implements SubscriptionsRepository
     public function delete(SubscriptionId $id): void
     {
         try {
-
             $query = new Query();
             $query->delete()
                 ->from('subscriptions')
                 ->where('id', '=', quote($id->value()));
 
             $this->connector->execute($query);
-
         } catch (\Exception $e) {
-
             // add some log to control fail
         }
     }

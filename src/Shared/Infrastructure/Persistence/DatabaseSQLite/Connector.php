@@ -48,7 +48,6 @@ class Connector
 
         if ($configuration['name'] == ':memory:') {
             $dsn = 'sqlite::memory:';
-
         } else {
             $path = realpath($configuration['name']);
 

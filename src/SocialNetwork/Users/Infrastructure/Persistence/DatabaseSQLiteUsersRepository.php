@@ -51,7 +51,6 @@ class DatabaseSQLiteUsersRepository implements UserRepository
     public function search(array $criteria = []): Collection
     {
         try {
-
             $query = new Query();
             $query->select(['*'])->from(['users']);
 
@@ -63,9 +62,7 @@ class DatabaseSQLiteUsersRepository implements UserRepository
                 ->map(function (array $item) {
                     return new User(new UserId($item['id']), new UserName($item['name']));
                 });
-
         } catch (\Exception $e) {
-
             // add some log to control fail
             return new Collection();
         }
@@ -78,7 +75,6 @@ class DatabaseSQLiteUsersRepository implements UserRepository
     public function save(User $user): void
     {
         try {
-
             $query = new Query();
             $query->insert('users', [
                 'id' => quote($user->id()->value()),
@@ -86,9 +82,7 @@ class DatabaseSQLiteUsersRepository implements UserRepository
             ]);
 
             $this->connector->execute($query);
-
         } catch (\Exception $e) {
-
             // add some log to control fail
         }
     }
@@ -100,16 +94,13 @@ class DatabaseSQLiteUsersRepository implements UserRepository
     public function delete(UserId $id): void
     {
         try {
-
             $query = new Query();
             $query->delete()
                 ->from('users')
                 ->where('id', '=', quote($id->value()));
 
             $this->connector->execute($query);
-
         } catch (\Exception $e) {
-
             // add some log to control fail
         }
     }

@@ -32,5 +32,4 @@ final class MessageCreatedTime extends \DateTimeImmutable
 
         return implode(', ', $createdAgo) . ' ago';
     }
-
 }

@@ -109,5 +109,4 @@ class Container extends Collection implements ContainerContract
     {
         return $this->has($id);
     }
-
 }

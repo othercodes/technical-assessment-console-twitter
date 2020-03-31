@@ -65,5 +65,4 @@ final class Subscription
     {
         return $this->subscribed;
     }
-
 }
