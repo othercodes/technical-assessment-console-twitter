@@ -39,7 +39,6 @@ class Wall extends Command
     public function execute(string $username): int
     {
         try {
-
             $userFinder = new UserFinder($this->users);
             $messageFinder = new MessageFinder($this->messages);
             $subscriptionFinder = new SubscriptionFinder($this->subscriptions);
@@ -64,16 +63,14 @@ class Wall extends Command
                     return $message->owner()->equals($user->id());
                 })->first();
 
-                $this->write(sprintf("%s - %s (%s)\n",
+                $this->write(sprintf(
+                    "%s - %s (%s)\n",
                     $owner->name(),
                     $message->text(),
                     $message->created()->asCreatedAgo()
                 ));
-
             }
-
         } catch (Exception $e) {
-
             $this->write("{$e->getMessage()}\n");
         }
 
