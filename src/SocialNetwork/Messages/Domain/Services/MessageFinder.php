@@ -1,6 +1,6 @@
 <?php
 
-namespace Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Application;
+namespace Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Services;
 
 use Lookiero\Hiring\ConsoleTwitter\Shared\Domain\Collection;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Contracts\MessagesRepository;
@@ -8,8 +8,8 @@ use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Message;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageOwnerId;
 
 /**
- * Class MessageReader
- * @package Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Application
+ * Class MessageFinder
+ * @package Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Services
  */
 final class MessageFinder
 {

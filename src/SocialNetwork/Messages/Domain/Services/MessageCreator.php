@@ -1,6 +1,6 @@
 <?php
 
-namespace Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Application;
+namespace Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Services;
 
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Contracts\MessagesRepository;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Message;
@@ -11,7 +11,7 @@ use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageText;
 
 /**
  * Class MessageCreator
- * @package Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Application
+ * @package Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Services
  */
 final class MessageCreator
 {

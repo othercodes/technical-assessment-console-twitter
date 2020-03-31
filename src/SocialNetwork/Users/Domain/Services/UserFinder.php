@@ -1,6 +1,6 @@
 <?php
 
-namespace Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Application;
+namespace Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Services;
 
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Contracts\UserRepository;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Exceptions\UserNotFoundException;
@@ -10,7 +10,7 @@ use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\UserName;
 
 /**
  * Class UserFinder
- * @package Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Application
+ * @package Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Services
  */
 final class UserFinder
 {

@@ -3,12 +3,12 @@
 namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands;
 
 use Lookiero\Hiring\ConsoleTwitter\Applications\Console\Command;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Application\MessageCreator;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Services\MessageCreator;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageCreatedTime;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageId;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageOwnerId;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageText;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Application\UserFinder;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Services\UserFinder;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Exceptions\UserNotFoundException;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\UserName;
 

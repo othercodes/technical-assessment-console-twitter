@@ -4,9 +4,9 @@ namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands;
 
 use Exception;
 use Lookiero\Hiring\ConsoleTwitter\Applications\Console\Command;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Application\MessageFinder;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Services\MessageFinder;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageOwnerId;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Application\UserFinder;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Services\UserFinder;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Exceptions\UserNotFoundException;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\UserName;
 

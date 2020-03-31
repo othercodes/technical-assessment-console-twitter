@@ -7,7 +7,7 @@ use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Subscriptions\Application\UserS
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Subscriptions\Domain\Exceptions\InvalidSubscribeToException;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Subscriptions\Domain\SubscribedId;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Subscriptions\Domain\SubscriberId;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Application\UserFinder;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Services\UserFinder;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Exceptions\UserNotFoundException;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\UserName;
 
