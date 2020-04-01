@@ -5,8 +5,8 @@
         </whitelist>
     </filter>
     <testsuites>
-        <testsuite name="Unit">
-            <directory>tests/Unit</directory>
+        <testsuite name="SocialNetwork">
+            <directory>tests/src/SocialNetwork</directory>
         </testsuite>
     </testsuites>
 </phpunit>

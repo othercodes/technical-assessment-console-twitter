@@ -2,7 +2,10 @@
 FROM php:7.2-cli as dockyard
 
 # Install dependencies
-RUN apt-get update && apt-get install -y build-essential libzip-dev libxml2-dev zip git sqlite3
+RUN apt-get update && \
+    apt-get install -y build-essential libzip-dev libxml2-dev zip git sqlite3 && \
+    pecl install xdebug-2.9.1 && \
+    docker-php-ext-enable xdebug
 
 # Install dependency manager
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -18,7 +21,7 @@ COPY ./tests /opt/unay-santisteban/console-twitter/tests
 COPY ./phpunit.xml /opt/unay-santisteban/console-twitter/phpunit.xml
 
 RUN composer install
-RUN vendor/bin/phpunit -c phpunit.xml
+RUN composer test
 RUN composer install --no-dev
 RUN rm -rf /opt/unay-santisteban/console-twitter/{tests,phpunit.xml}
 
