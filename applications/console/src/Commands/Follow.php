@@ -30,17 +30,17 @@ class Follow extends Command
     public function execute(string $follower, string $toFollow): int
     {
         try {
-
             $subscriber = new Subscriber($this->users, $this->subscriptions);
 
-            $this->write(sprintf($subscriber->subscribe($follower, $toFollow)
-                ? Follow::SUBSCRIBED_SUCCESSFULLY
-                : Follow::ALREADY_SUBSCRIBED,
-                $follower, $toFollow
+            $this->write(sprintf(
+                $subscriber->subscribe($follower, $toFollow)
+                    ? Follow::SUBSCRIBED_SUCCESSFULLY
+                    : Follow::ALREADY_SUBSCRIBED,
+                $follower,
+                $toFollow
             ));
 
         } catch (Exception $e) {
-
             $this->write("{$e->getMessage()}\n");
         }
 

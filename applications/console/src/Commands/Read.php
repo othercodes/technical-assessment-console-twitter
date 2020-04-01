@@ -29,18 +29,14 @@ class Read extends Command
     public function execute(string $username): int
     {
         try {
-
             $reader = new TimelineReader($this->users, $this->messages);
+            $messages = $reader->load($username);
 
-            foreach ($reader->read($username) as $message) {
-                $this->write(sprintf("%s (%s)\n",
-                    $message->text(),
-                    $message->created()->asCreatedAgo()
-                ));
+            foreach ($messages as $message) {
+                $this->write(sprintf("%s (%s)\n", $message->text(), $message->created()->asCreatedAgo()));
             }
 
         } catch (Exception $e) {
-
             $this->write("{$e->getMessage()}\n");
         }
 
