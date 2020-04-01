@@ -38,11 +38,11 @@ final class SubscriptionFinder
     public function bySubscriber(SubscriberId $subscriber, ?SubscribedId $subscribed = null): Collection
     {
         $criteria = [
-            ['field' => 'subscriber_id', 'operator' => '=', 'value' => quote($subscriber->value())]
+            ['field' => 'subscriber_id', 'operator' => '=', 'value' => quote($subscriber)]
         ];
 
         if (isset($subscribed)) {
-            $criteria[] = ['field' => 'subscribed_id', 'operator' => '=', 'value' => quote($subscribed->value())];
+            $criteria[] = ['field' => 'subscribed_id', 'operator' => '=', 'value' => quote($subscribed)];
         }
 
         return $this->repository->search($criteria);

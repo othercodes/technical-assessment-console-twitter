@@ -4,6 +4,7 @@ namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands;
 
 use Exception;
 use Lookiero\Hiring\ConsoleTwitter\Applications\Console\Command;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Shared\Application\Formatter;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Shared\Application\TimelineReader;
 
 /**
@@ -24,16 +25,15 @@ class Read extends Command
      * Handle the command execution.
      * @param string $username
      * @return int
-     * @throws Exception
      */
     public function execute(string $username): int
     {
         try {
-            $reader = new TimelineReader($this->users, $this->messages);
-            $messages = $reader->load($username);
+            $reader = new TimelineReader($this->users, $this->messages, new Formatter());
+            $messages = $reader->readFrom($username);
 
             foreach ($messages as $message) {
-                $this->write(sprintf("%s (%s)\n", $message->text(), $message->created()->asCreatedAgo()));
+                $this->write("$message\n");
             }
 
         } catch (Exception $e) {

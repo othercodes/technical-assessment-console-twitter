@@ -70,8 +70,8 @@ final class Subscriber
             throw new InvalidSubscribeToException("A user cannot subscribe to himself.");
         }
 
-        $subscriberId = new SubscriberId($subscriber->id()->value());
-        $subscribedId = new SubscribedId($subscribed->id()->value());
+        $subscriberId = new SubscriberId($subscriber->id());
+        $subscribedId = new SubscribedId($subscribed->id());
 
         $subscription = $this->subscriptionFinder->bySubscriber($subscriberId, $subscribedId)->first();
         if (is_null($subscription)) {

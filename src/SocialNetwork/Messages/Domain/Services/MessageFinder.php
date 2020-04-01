@@ -37,7 +37,7 @@ final class MessageFinder
     {
         $ownerIds = new Collection($ownerIds);
         $ownerIds = implode(',', $ownerIds->map(function (MessageOwnerId $id) {
-            return quote($id->value());
+            return quote($id);
         })->getValues());
 
         return $this->repository->search([

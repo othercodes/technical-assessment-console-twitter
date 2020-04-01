@@ -41,7 +41,7 @@ class DatabaseSQLiteMessagesRepository implements MessagesRepository
     public function find(MessageId $id): ?Message
     {
         return $this->search([
-            ['field' => 'id', 'operator' => '=', 'value' => quote($id->value())]
+            ['field' => 'id', 'operator' => '=', 'value' => quote($id)]
         ])->first();
     }
 
@@ -84,9 +84,9 @@ class DatabaseSQLiteMessagesRepository implements MessagesRepository
         try {
             $query = new Query();
             $query->insert('messages', [
-                'id' => quote($message->id()->value()),
-                'owner_id' => quote($message->owner()->value()),
-                'text' => quote($message->text()->value()),
+                'id' => quote($message->id()),
+                'owner_id' => quote($message->owner()),
+                'text' => quote($message->text()),
                 'created' => quote($message->created()->format('Y-m-d H:i:s'))
             ]);
 
@@ -106,7 +106,7 @@ class DatabaseSQLiteMessagesRepository implements MessagesRepository
             $query = new Query();
             $query->delete()
                 ->from('messages')
-                ->where('id', '=', quote($id->value()));
+                ->where('id', '=', quote($id));
 
             $this->connector->execute($query);
         } catch (\Exception $e) {

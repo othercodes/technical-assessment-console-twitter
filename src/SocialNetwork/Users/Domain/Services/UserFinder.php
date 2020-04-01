@@ -40,7 +40,7 @@ final class UserFinder
         $user = $this->repository->find($id);
 
         if (is_null($user)) {
-            throw new UserNotFoundException("User with id '{$id->value()}' not found.");
+            throw new UserNotFoundException("User with id '{$id}' not found.");
         }
 
         return $user;
@@ -55,11 +55,11 @@ final class UserFinder
     public function byName(UserName $name): User
     {
         $user = $this->repository->search([
-            ['field' => 'name', 'operator' => '=', 'value' => quote($name->value())]
+            ['field' => 'name', 'operator' => '=', 'value' => quote($name)]
         ])->first();
 
         if (is_null($user)) {
-            throw new UserNotFoundException("User '{$name->value()}' not found.");
+            throw new UserNotFoundException("User '{$name}' not found.");
         }
 
         return $user;

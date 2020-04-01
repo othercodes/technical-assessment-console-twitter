@@ -40,7 +40,7 @@ class DatabaseSQLiteSubscriptionsRepository implements SubscriptionsRepository
     public function find(SubscriptionId $id): ?Subscription
     {
         return $this->search([
-            ['field' => 'id', 'operator' => '=', 'value' => quote($id->value())]
+            ['field' => 'id', 'operator' => '=', 'value' => quote($id)]
         ])->first();
     }
 
@@ -82,9 +82,9 @@ class DatabaseSQLiteSubscriptionsRepository implements SubscriptionsRepository
         try {
             $query = new Query();
             $query->insert('subscriptions', [
-                'id' => quote($subscription->id()->value()),
-                'subscriber_id' => quote($subscription->subscriber()->value()),
-                'subscribed_id' => quote($subscription->subscribed()->value())
+                'id' => quote($subscription->id()),
+                'subscriber_id' => quote($subscription->subscriber()),
+                'subscribed_id' => quote($subscription->subscribed())
             ]);
 
             $this->connector->execute($query);
@@ -103,7 +103,7 @@ class DatabaseSQLiteSubscriptionsRepository implements SubscriptionsRepository
             $query = new Query();
             $query->delete()
                 ->from('subscriptions')
-                ->where('id', '=', quote($id->value()));
+                ->where('id', '=', quote($id));
 
             $this->connector->execute($query);
         } catch (\Exception $e) {

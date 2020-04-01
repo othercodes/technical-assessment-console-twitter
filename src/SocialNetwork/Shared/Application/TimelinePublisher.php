@@ -3,7 +3,6 @@
 namespace Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Shared\Application;
 
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Contracts\MessagesRepository;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Message;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageCreated;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageId;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageOwnerId;
@@ -47,17 +46,19 @@ final class TimelinePublisher
      * Publish a new Message for a User
      * @param string $username
      * @param string $message
-     * @return Message
+     * @return bool
      * @throws UserNotFoundException
      */
-    public function publish(string $username, string $message): Message
+    public function publish(string $username, string $message): bool
     {
         $user = $this->userFinder->byName(new UserName($username));
-        return $this->messageCreator->create(
+        $this->messageCreator->create(
             new MessageId(uuid()),
-            new MessageOwnerId($user->id()->value()),
+            new MessageOwnerId($user->id()),
             new MessageText($message),
             new MessageCreated('now')
         );
+
+        return true;
     }
 }

@@ -39,7 +39,7 @@ class DatabaseSQLiteUsersRepository implements UserRepository
     public function find(UserId $id): ?User
     {
         return $this->search([
-            ['field' => 'id', 'operator' => '=', 'value' => quote($id->value())]
+            ['field' => 'id', 'operator' => '=', 'value' => quote($id)]
         ])->first();
     }
 
@@ -77,8 +77,8 @@ class DatabaseSQLiteUsersRepository implements UserRepository
         try {
             $query = new Query();
             $query->insert('users', [
-                'id' => quote($user->id()->value()),
-                'name' => $user->name()->value()
+                'id' => quote($user->id()),
+                'name' => $user->name()
             ]);
 
             $this->connector->execute($query);
@@ -97,7 +97,7 @@ class DatabaseSQLiteUsersRepository implements UserRepository
             $query = new Query();
             $query->delete()
                 ->from('users')
-                ->where('id', '=', quote($id->value()));
+                ->where('id', '=', quote($id));
 
             $this->connector->execute($query);
         } catch (\Exception $e) {

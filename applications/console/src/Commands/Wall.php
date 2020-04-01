@@ -4,17 +4,8 @@ namespace Lookiero\Hiring\ConsoleTwitter\Applications\Console\Commands;
 
 use Exception;
 use Lookiero\Hiring\ConsoleTwitter\Applications\Console\Command;
-use Lookiero\Hiring\ConsoleTwitter\Shared\Domain\Collection;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Message;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\MessageOwnerId;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Services\MessageFinder;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Subscriptions\Application\SubscriptionFinder;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Subscriptions\Domain\SubscriberId;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Subscriptions\Domain\Subscription;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Services\UserFinder;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\User;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\UserId;
-use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\UserName;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Shared\Application\Formatter;
+use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Shared\Application\WallReader;
 
 /**
  * Class Wall
@@ -39,37 +30,13 @@ class Wall extends Command
     public function execute(string $username): int
     {
         try {
-            $userFinder = new UserFinder($this->users);
-            $messageFinder = new MessageFinder($this->messages);
-            $subscriptionFinder = new SubscriptionFinder($this->subscriptions);
+            $reader = new WallReader($this->users, $this->messages, $this->subscriptions, new Formatter());
+            $messages = $reader->readFrom($username);
 
-            $user = $userFinder->byName(new UserName($username));
-
-            $ownerIds = new Collection([new MessageOwnerId($user->id()->value())]);
-            $ownerIds = $ownerIds->merge($subscriptionFinder->bySubscriber(new SubscriberId($user->id()->value()))
-                ->map(function (Subscription $subscription) {
-                    return new MessageOwnerId($subscription->subscribed()->value());
-                }));
-
-            $messageOwners = $ownerIds->map(function (MessageOwnerId $id) use ($userFinder) {
-                return $userFinder->byId(new UserId($id->value()));
-            });
-
-            /** @var Message $message */
-            foreach ($messageFinder->byOwner(...$ownerIds->getValues()) as $message) {
-
-                /** @var User $owner */
-                $owner = $messageOwners->filter(function (User $user) use ($message) {
-                    return $message->owner()->equals($user->id());
-                })->first();
-
-                $this->write(sprintf(
-                    "%s - %s (%s)\n",
-                    $owner->name(),
-                    $message->text(),
-                    $message->created()->asCreatedAgo()
-                ));
+            foreach ($messages as $message) {
+                $this->write("$message\n");
             }
+
         } catch (Exception $e) {
             $this->write("{$e->getMessage()}\n");
         }
