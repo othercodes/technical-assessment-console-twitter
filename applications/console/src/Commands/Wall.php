@@ -36,7 +36,6 @@ class Wall extends Command
             foreach ($messages as $message) {
                 $this->write("$message\n");
             }
-
         } catch (Exception $e) {
             $this->write("{$e->getMessage()}\n");
         }

@@ -89,5 +89,4 @@ class Application
          */
         return $kernel->handle($input, $output);
     }
-
 }

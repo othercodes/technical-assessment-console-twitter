@@ -78,7 +78,6 @@ class Kernel implements KernelContract
     public function handle(Input $input, Output $output): int
     {
         try {
-
             $status = 0;
 
             /**
@@ -92,13 +91,10 @@ class Kernel implements KernelContract
                 if (!empty($args[0])) {
                     $status = call_user_func_array([$this->container->get("cli.command.{$ctrl}"), 'execute'], $args);
                 }
-
             } else {
                 $output->write("Command '{$ctrl}' not found.\n");
             }
-
         } catch (Error | Exception $e) {
-
             $output->write("{$e->getMessage()}\n");
 
             return empty($e->getCode()) ? $e->getCode() : 1;

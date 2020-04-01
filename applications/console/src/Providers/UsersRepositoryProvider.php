@@ -7,7 +7,6 @@ use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Container as Con
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Domain\Contracts\UserRepository;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Users\Infrastructure\Persistence\DatabaseSQLiteUsersRepository;
 
-
 /**
  * Class UsersRepositoryProvider
  * @package Lookiero\Hiring\ConsoleTwitter\Applications\Console\Providers

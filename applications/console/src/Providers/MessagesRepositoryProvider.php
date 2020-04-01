@@ -7,7 +7,6 @@ use Lookiero\Hiring\ConsoleTwitter\Shared\Application\Contracts\Container as Con
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Domain\Contracts\MessagesRepository;
 use Lookiero\Hiring\ConsoleTwitter\SocialNetwork\Messages\Infrastructure\Persistence\DatabaseSQLiteMessagesRepository;
 
-
 /**
  * Class MessagesRepositoryProvider
  * @package Lookiero\Hiring\ConsoleTwitter\Applications\Console\Providers

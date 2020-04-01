@@ -39,7 +39,6 @@ class Follow extends Command
                 $follower,
                 $toFollow
             ));
-
         } catch (Exception $e) {
             $this->write("{$e->getMessage()}\n");
         }

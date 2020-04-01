@@ -27,12 +27,9 @@ class Post extends Command
     public function execute(string $username, string $message): int
     {
         try {
-
             $publisher = new TimelinePublisher($this->users, $this->messages);
             $publisher->publish($username, $message);
-
         } catch (Exception $e) {
-
             $this->write("{$e->getMessage()}\n");
         }
 
