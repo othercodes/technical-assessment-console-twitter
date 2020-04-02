@@ -124,6 +124,12 @@ docker run -it --rm othercode/console-twitter:latest
 
 ## Scenarios
 
+Quit: Any user can exit the application.
+
+```
+> alice quit
+``` 
+
 Posting: Alice can publish messages to a personal timeline
  
 ```
